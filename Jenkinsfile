@@ -7,7 +7,7 @@ pipeline {
     stage("Clone code from GitHub") {
             steps {
                 script {
-                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'githubwithpassword', url: 'https://github.com/devopshint/kubernetes_jenkins_pipeline.git']]])
+                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'GITHUB_CREDENTIALS', url: 'https://github.com/vin2008vin/kube-infra-setup.git']]])
                 }
             }
         }
@@ -21,7 +21,7 @@ pipeline {
      stage('Build Node JS Docker Image') {
             steps {
                 script {
-                  sh 'docker build -t devopshint/node-app-1.0 .'
+                  sh 'docker build -t vin2008vin/node-app-1.0 .'
                 }
             }
         }
@@ -30,18 +30,20 @@ pipeline {
         stage('Deploy Docker Image to DockerHub') {
             steps {
                 script {
-                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                    sh 'docker login -u devopshint -p ${dockerhubpwd}'
+                 withCredentials([string(credentialsId: 'devopsdocker0009', variable: 'devopsdocker0009')]) {
+                    sh 'docker login -u devopsdocker0009 -p ${devopsdocker0009}'
                  }  
                  sh 'docker push devopshint/node-app-1.0'
                 }
             }
         }
          
-     stage('Deploying Node App to Kubernetes') {
+     stage('Deploying Node App tohelm chart to Kubernetes') {
       steps {
         script {
-          kubernetesDeploy(configs: "nodeapp-deployment-service.yml", kubeconfigId: "kubernetes_config")
+          sh ('aws eks update-kubeconfig --name kube --region ap-south-1')
+          sh "kubectl get ns"
+          sh "helm install java ./node-app"
         }
       }
     }
