@@ -21,7 +21,7 @@ pipeline {
      stage('Build Node JS Docker Image') {
             steps {
                 script {
-                  sh 'docker build -t vin2008vin/node-app-1.0 .'
+                  sh 'docker build -t devopsdocker0009/node-app-1.0 .'
                 }
             }
         }
