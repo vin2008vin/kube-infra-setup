@@ -51,9 +51,13 @@ pipeline {
                     sshagent(['ec2']) {
                         sh """
                         # Copy files to EC2 instance
-                        scp -o StrictHostKeyChecking=no ubuntu@${EC2_IP}:/home/ubuntu
-                        sh "kubectl get ns"
-                        sh "helm install java ./node-app"
+                        scp -o StrictHostKeyChecking=no ubuntu@${EC2_IP}:/home/ubuntu 
+
+                           #Pull the latest Docker image and restart services
+                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} "
+                          sh "kubectl get ns"
+                            sh "helm install java ./node-app"
+                        "
                         """
                     }
                 }
