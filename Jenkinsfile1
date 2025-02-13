@@ -3,8 +3,8 @@ pipeline {
 
       environment {
 
-        EC2_IP = '34.254.177.213'
-        DotEnvFile = '.env'
+        EC2_IP = '15.207.86.203'
+
     }
     
   tools {nodejs "node"}
