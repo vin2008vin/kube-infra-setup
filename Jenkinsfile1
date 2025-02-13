@@ -49,16 +49,11 @@ pipeline {
                 script {
                     echo "Deploying with Docker Compose..."
 
-                        sh """
-                        # Copy files to EC2 instance
-                        scp -o StrictHostKeyChecking=no ubuntu@${EC2_IP}:/home/ubuntu 
 
-                           #Pull the latest Docker image and restart services
-                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} "
+                        ssh ubuntu@${EC2_IP} 
                           sh "kubectl get ns"
                             sh "helm install java ./node-app"
-                        "
-                        """
+
                     
                 }
             }
