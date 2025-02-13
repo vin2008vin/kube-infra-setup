@@ -33,7 +33,7 @@ pipeline {
                  withCredentials([string(credentialsId: 'devopsdocker0009', variable: 'devopsdocker0009')]) {
                     sh 'docker login -u devopsdocker0009 -p ${devopsdocker0009}'
                  }  
-                 sh 'docker push devopshint/node-app-1.0'
+                 sh 'docker push devopsdocker0009/node-app-1.0'
                 }
             }
         }
