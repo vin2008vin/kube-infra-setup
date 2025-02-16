@@ -54,12 +54,12 @@ environment {
                         scp -o StrictHostKeyChecking=no ubuntu@${EC2_IP}:/home/ubuntu
 
                         # Pull the latest Docker image and restart services
-                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} "
-                            export DC_IMAGE_NAME=devopsdocker0009/node-app-1.0 && \
-                            helm install java ./node-app
+                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} helm install java ./node-app
+                        //    export DC_IMAGE_NAME=devopsdocker0009/node-app-1.0 && \
+                            
                        //     docker compose -f /home/ubuntu/${DockerComposeFile} --env-file /home/ubuntu/${DotEnvFile} down && \
                         //    docker compose -f /home/ubuntu/${DockerComposeFile} --env-file /home/ubuntu/${DotEnvFile} up -d
-                        "
+                        
                     }
 }
         }
