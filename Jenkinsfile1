@@ -2,7 +2,7 @@ pipeline {
   agent any
 
 environment {
-       // ImageRegistry = 'oluwaseuna'
+        ImageRegistry = 'devopsdocker0009'
         EC2_IP = '65.0.130.153'
         // DockerComposeFile = 'docker-compose.yml'
         // DotEnvFile = '.env'
@@ -29,7 +29,7 @@ environment {
      stage('Build Node JS Docker Image') {
             steps {
                 script {
-                  sh 'docker build -t devopsdocker0009/node-app-1.0 .'
+                  sh "docker build -t ${DockerImageTag} ."
                 }
             }
         }
@@ -41,26 +41,30 @@ environment {
                  withCredentials([string(credentialsId: 'devopsdocker0009', variable: 'devopsdocker0009')]) {
                     sh 'docker login -u devopsdocker0009 -p ${devopsdocker0009}'
                  }  
-                 sh 'docker push devopsdocker0009/node-app-1.0'
+                 sh "docker push ${DockerImageTag}"
                 }
             }
         }
          
         stage("deployCompose") {
           steps {
+                script {
+                    echo "Deploying with Docker Compose..."
                     sshagent(['ec2']) {
                         sh """
                         # Copy files to EC2 instance
                         scp -o StrictHostKeyChecking=no ubuntu@${EC2_IP}:/home/ubuntu
 
                         # Pull the latest Docker image and restart services
-                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} helm install java ./node-app
-                        //    export DC_IMAGE_NAME=devopsdocker0009/node-app-1.0 && \
-                            
-                       //     docker compose -f /home/ubuntu/${DockerComposeFile} --env-file /home/ubuntu/${DotEnvFile} down && \
+                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} "
+                            export DC_IMAGE_NAME=${DockerImageTag} && \
+                              helm install java ./node-app
+                        //    docker compose -f /home/ubuntu/${DockerComposeFile} --env-file /home/ubuntu/${DotEnvFile} down && \
                         //    docker compose -f /home/ubuntu/${DockerComposeFile} --env-file /home/ubuntu/${DotEnvFile} up -d
-                        
+                        "
+                        """
                     }
+                }
 }
         }
 
