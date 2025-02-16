@@ -1,6 +1,14 @@
 pipeline {
   agent any
 
+environment {
+       // ImageRegistry = 'oluwaseuna'
+        EC2_IP = '65.0.130.153'
+        // DockerComposeFile = 'docker-compose.yml'
+        // DotEnvFile = '.env'
+        // DockerImageTag = "${ImageRegistry}/${JOB_NAME}:${BUILD_NUMBER}"
+    }
+
   tools {nodejs "node"}
     
   stages {
@@ -41,10 +49,14 @@ pipeline {
      stage('Deploying Node App to helm chart to Kubernetes') {
       steps {
         script {
-         
-          // sh ('aws eks update-kubeconfig --name kube --region ap-south-1')
-          sh "kubectl get ns"
-          sh "helm install java ./node-app"
+                    sshagent(['ec2']) {
+                        sh """
+                        # Copy files to EC2 instance
+                        scp -o StrictHostKeyChecking=no ubuntu@${EC2_IP}:/home/ubuntu
+
+                            sh "kubectl get ns"
+                            sh "helm install java ./node-app"
+                        """
         }
       }
     }
