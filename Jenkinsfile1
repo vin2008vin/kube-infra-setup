@@ -50,7 +50,7 @@ environment {
             steps {
                 script {
                     echo "Deploying with Docker Compose..."
-                    sshagent(['ubuntu']) {
+                    sshagent(['ec2']) {
                         sh """
                         # Copy files to EC2 instance
                         scp -o StrictHostKeyChecking=no ubuntu@${EC2_IP}:/home/ubuntu
