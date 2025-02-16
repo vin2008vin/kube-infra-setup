@@ -41,7 +41,7 @@ pipeline {
      stage('Deploying Node App to helm chart to Kubernetes') {
       steps {
         script {
-          withCredentials([string(credentialsId: 'ec2-remote-host', variable: 'ec2-remote-host')]) {
+          withCredentials([string(credentialsId: 'ec2', variable: 'ec2')]) {
           // sh 'docker login -u devopsdocker0009 -p ${devopsdocker0009}'
                  }  
           // sh ('aws eks update-kubeconfig --name kube --region ap-south-1')
