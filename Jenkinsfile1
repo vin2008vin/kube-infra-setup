@@ -44,20 +44,15 @@ pipeline {
             }
         }
          
-        stage("deployCompose") {
-            steps {
-                script {
-                    echo "Deploying with Docker Compose..."
-
-
-                        ssh ubuntu@${EC2_IP} 
-                          sh "kubectl get ns"
-                            sh "helm install java ./node-app"
-
-                    
-                }
-            }
+     stage('Deploying Node App tohelm chart to Kubernetes') {
+      steps {
+        script {
+          sh ('aws eks update-kubeconfig --name kube --region ap-south-1')
+          sh "kubectl get ns"
+          sh "helm install java ./node-app"
         }
+      }
+    }
 
   }
 }
