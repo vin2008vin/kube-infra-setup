@@ -27,7 +27,7 @@ pipeline {
         }
 
 
-        stae('Deploy Docker Image to DockerHub') {
+        stage('Deploy Docker Image to DockerHub') {
             steps {
                 script {
                  withCredentials([string(credentialsId: 'devopsdocker0009', variable: 'devopsdocker0009')]) {
@@ -41,7 +41,10 @@ pipeline {
      stage('Deploying Node App to helm chart to Kubernetes') {
       steps {
         script {
-          sh ('aws eks update-kubeconfig --name kube --region ap-south-1')
+          withCredentials([string(credentialsId: 'ec2-remote-host', variable: 'ec2-remote-host')]) {
+          // sh 'docker login -u devopsdocker0009 -p ${devopsdocker0009}'
+                 }  
+          // sh ('aws eks update-kubeconfig --name kube --region ap-south-1')
           sh "kubectl get ns"
           sh "helm install java ./node-app"
         }
