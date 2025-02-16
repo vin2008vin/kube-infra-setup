@@ -51,17 +51,11 @@ environment {
                 script {
                     echo "Deploying with Docker Compose..."
                     sshagent(['ec2']) {
-      //                  sh """
-                        # Copy files to EC2 instance
+                        sh """
                         scp -o StrictHostKeyChecking=no ubuntu@${EC2_IP}:/home/ubuntu
-
-                        # Pull the latest Docker image and restart services
-                    //    ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} "
-                    //        export DC_IMAGE_NAME=${DockerImageTag} && \
-                        sh "kubectl get ns"
-                        sh "helm install java ./node-app"
-                   //     "
-               //         """
+                //        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} "docker compose -f /home/ubuntu/${DockerComposeFile} --env-file /home/ubuntu/${DotEnvFile} down"
+                //        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} "docker compose -f /home/ubuntu/${DockerComposeFile} --env-file /home/ubuntu/${DotEnvFile} up -d"
+                        """
                     }
                 }
             }
