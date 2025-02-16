@@ -51,9 +51,9 @@ environment {
                     sshagent(['ec2']) {
                         // Upload files once to reduce redundant SCP commands
                         sh """
-                        scp -o StrictHostKeyChecking=no ubuntu@${EC2_IP}:/home/ubuntu
-                        sh "kubectl get ns"
-                        sh "helm install java ./node-app"
+                      //  scp -o StrictHostKeyChecking=no ubuntu@${EC2_IP}:/home/ubuntu
+                        sh "sudo kubectl get nods"
+                        sh "sudo helm install java ./node-app"
                         // ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} "docker compose -f /home/ubuntu/${DockerComposeFile} --env-file /home/ubuntu/${DotEnvFile} down"
                         // ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} "docker compose -f /home/ubuntu/${DockerComposeFile} --env-file /home/ubuntu/${DotEnvFile} up -d"
                         """
