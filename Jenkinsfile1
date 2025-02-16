@@ -6,7 +6,7 @@ environment {
         EC2_IP = '65.0.130.153'
         // DockerComposeFile = 'docker-compose.yml'
         // DotEnvFile = '.env'
-        // DockerImageTag = "${ImageRegistry}/${JOB_NAME}:${BUILD_NUMBER}"
+        DockerImageTag = "${ImageRegistry}/${JOB_NAME}:${BUILD_NUMBER}"
     }
 
   tools {nodejs "node"}
