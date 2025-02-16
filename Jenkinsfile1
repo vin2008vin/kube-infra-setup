@@ -41,9 +41,7 @@ pipeline {
      stage('Deploying Node App to helm chart to Kubernetes') {
       steps {
         script {
-          withCredentials([string(credentialsId: 'ubuntu', variable: 'ubuntu')]) {
-          // sh 'docker login -u devopsdocker0009 -p ${devopsdocker0009}'
-                 }  
+         
           // sh ('aws eks update-kubeconfig --name kube --region ap-south-1')
           sh "kubectl get ns"
           sh "helm install java ./node-app"
